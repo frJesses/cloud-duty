@@ -4,9 +4,15 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { TABS_LIST } from "@/constants/Tabs";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  function CustomTabButton(props: any) {
+    return <TouchableOpacity {...props} activeOpacity={1} />;
+  }
 
   return (
     <Tabs
@@ -17,62 +23,33 @@ export default function TabLayout() {
           ios: {
             position: "absolute",
           },
-          default: {},
+          default: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
         }),
+        tabBarItemStyle: {
+          backgroundColor: "transparent",
+        },
+        tabBarButton: (props) => <CustomTabButton {...props} />,
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "首页",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="monitor"
-        options={{
-          title: "监控",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Ionicons
-              name={focused ? "analytics" : "analytics-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="message"
-        options={{
-          title: "消息",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Ionicons
-              name={focused ? "chatbubbles" : "chatbubbles-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "我的",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Ionicons
-              name={focused ? "person" : "person-outline"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
+      {TABS_LIST.map((t) => (
+        <Tabs.Screen
+          key={t.path}
+          name={t.path}
+          options={{
+            title: t.name,
+            tabBarIcon: ({ color, focused, size }) => (
+              <Ionicons
+                name={(focused ? t.activeIcon : t.icon) as any}
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
