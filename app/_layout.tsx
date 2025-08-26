@@ -39,7 +39,7 @@ export default function RootLayout() {
           >
             <Stack.Screen name="(tabs)" />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar />
         </SafeAreaProvider>
       </NativeBaseProvider>
     </ThemeProvider>

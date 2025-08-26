@@ -12,9 +12,7 @@ export default function SplashScreen() {
   const scaleAnim = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
-    // 启动动画序列
     const startAnimations = async () => {
-      // 1. Logo 淡入和缩放动画
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
@@ -29,7 +27,6 @@ export default function SplashScreen() {
         }),
       ]).start();
 
-      // 2. 等待动画完成后开始检查逻辑
       setTimeout(() => {
         checkAuthAndNavigate();
       }, 1500);
@@ -39,36 +36,7 @@ export default function SplashScreen() {
   }, []);
 
   const checkAuthAndNavigate = async () => {
-    try {
-      // 这里添加你的认证逻辑
-      // 例如：检查 token、用户状态等
-
-      // 模拟检查过程
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      // 示例：检查是否有有效的 token
-      const hasValidToken = await checkTokenValidity();
-
-      // 使用 push 而不是 replace，让跳转更平滑
-      if (hasValidToken) {
-        // 有有效 token，跳转到主页面
-        router.push("/(tabs)");
-      } else {
-        // 没有有效 token，跳转到登录页面
-        router.push("/login");
-      }
-    } catch (error) {
-      console.error("启动检查失败:", error);
-      // 出错时默认跳转到登录页面
-      router.push("/login");
-    }
-  };
-
-  // 模拟检查 token 有效性的函数
-  const checkTokenValidity = async (): Promise<boolean> => {
-    // 这里实现你的 token 检查逻辑
-    // 例如：从 AsyncStorage 读取 token 并验证
-    return false; // 暂时返回 false，跳转到登录页面
+    router.replace("/login");
   };
 
   return (
