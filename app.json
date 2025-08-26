@@ -16,7 +16,18 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.wwlbody.clouddutywww"
+      "package": "com.wwlbody.clouddutywww",
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "transparent",
+      "barStyle": "dark-content",
+      "visible": true
+    },
+    "androidStatusBar": {
+      "backgroundColor": "transparent",
+      "barStyle": "dark-content",
+      "translucent": true
     },
     "web": {
       "bundler": "metro",

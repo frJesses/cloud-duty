@@ -1,5 +1,13 @@
-import { TextInput, TextInputProps, StyleSheet, View } from "react-native";
+import {
+  TextInput,
+  TextInputProps,
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+} from "react-native";
 import { useState, ReactNode } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 interface CustomTextInputProps extends Omit<TextInputProps, "style"> {
   placeholder?: string;
@@ -9,10 +17,9 @@ interface CustomTextInputProps extends Omit<TextInputProps, "style"> {
   containerStyle?: object;
   inputStyle?: object;
   isPassword?: boolean;
+  isVerify?: boolean;
   maxLength?: number;
   keyboardType?: TextInputProps["keyboardType"];
-  autoCapitalize?: TextInputProps["autoCapitalize"];
-  autoCorrect?: boolean;
   multiline?: boolean;
   numberOfLines?: number;
   editable?: boolean;
@@ -21,8 +28,6 @@ interface CustomTextInputProps extends Omit<TextInputProps, "style"> {
   onSubmitEditing?: () => void;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  leftIconStyle?: object;
-  rightIconStyle?: object;
   iconSize?: number;
 }
 
@@ -36,8 +41,6 @@ export default function CustomTextInput({
   isPassword = false,
   maxLength,
   keyboardType = "default",
-  autoCapitalize = "none",
-  autoCorrect = false,
   multiline = false,
   numberOfLines = 1,
   editable = true,
@@ -46,12 +49,12 @@ export default function CustomTextInput({
   onSubmitEditing,
   leftIcon,
   rightIcon,
-  leftIconStyle,
-  rightIconStyle,
   iconSize = 20,
+  isVerify = false,
   ...restProps
 }: CustomTextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -75,9 +78,7 @@ export default function CustomTextInput({
       ]}
     >
       {leftIcon && (
-        <View style={[styles.iconContainer, styles.leftIcon, leftIconStyle]}>
-          {leftIcon}
-        </View>
+        <View style={[styles.iconContainer, styles.leftIcon]}>{leftIcon}</View>
       )}
 
       <TextInput
@@ -85,11 +86,9 @@ export default function CustomTextInput({
         placeholderTextColor={placeholderTextColor}
         value={value}
         onChangeText={onChangeText}
-        secureTextEntry={isPassword}
+        secureTextEntry={isPassword && !isPasswordVisible}
         maxLength={maxLength}
         keyboardType={keyboardType}
-        autoCapitalize={autoCapitalize}
-        autoCorrect={autoCorrect}
         multiline={multiline}
         numberOfLines={numberOfLines}
         editable={editable}
@@ -100,15 +99,36 @@ export default function CustomTextInput({
           styles.input,
           {
             paddingLeft: leftIcon ? 40 : 12,
-            paddingRight: rightIcon ? 40 : 12,
+            paddingRight: isPassword ? 40 : rightIcon ? 40 : 12,
           },
           inputStyle,
         ]}
         {...restProps}
       />
 
-      {rightIcon && (
-        <View style={[styles.iconContainer, styles.rightIcon, rightIconStyle]}>
+      {isPassword && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => setIsPasswordVisible((prev) => !prev)}
+          style={[styles.iconContainer, styles.rightIcon]}
+          hitSlop={8}
+        >
+          <Ionicons
+            name={isPasswordVisible ? "eye" : "eye-off"}
+            size={20}
+            color="#999"
+          />
+        </Pressable>
+      )}
+
+      {isVerify && (
+        <Pressable accessibilityRole="button" hitSlop={8} className="pr-2">
+          <Text className="text-red-400">获取验证码</Text>
+        </Pressable>
+      )}
+
+      {Boolean(rightIcon && !isVerify && !isPassword) && (
+        <View style={[styles.iconContainer, styles.rightIcon]}>
           {rightIcon}
         </View>
       )}

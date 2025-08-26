@@ -13,6 +13,7 @@ import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import "./global.css";
+import * as NavigationBar from "expo-navigation-bar";
 
 // 保持启动屏可见
 SplashScreen.preventAutoHideAsync();
@@ -27,6 +28,11 @@ export default function RootLayout() {
     if (loadFont) {
       SplashScreen.hideAsync();
     }
+    // 使底部系统导航栏透明，并根据主题调整按钮颜色
+    NavigationBar.setBackgroundColorAsync("transparent");
+    NavigationBar.setButtonStyleAsync(
+      colorScheme === "dark" ? "light" : "dark"
+    );
   }, [loadFont]);
 
   return (
@@ -39,7 +45,7 @@ export default function RootLayout() {
           >
             <Stack.Screen name="(tabs)" />
           </Stack>
-          <StatusBar />
+          <StatusBar translucent backgroundColor="transparent" />
         </SafeAreaProvider>
       </NativeBaseProvider>
     </ThemeProvider>

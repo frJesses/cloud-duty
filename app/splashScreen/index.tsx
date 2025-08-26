@@ -1,10 +1,10 @@
-import { Text, View, Animated, Dimensions } from "react-native";
+import { Text, View, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("window");
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -31,7 +31,6 @@ export default function SplashScreen() {
         checkAuthAndNavigate();
       }, 1500);
     };
-
     startAnimations();
   }, []);
 
@@ -40,13 +39,14 @@ export default function SplashScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#1a1a1a" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      <StatusBar style="dark" backgroundColor="#FFFFFF" />
       <View
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#1a1a1a",
+          backgroundColor: "#FFFFFF",
         }}
       >
         {/* Logo 动画 */}
@@ -62,7 +62,7 @@ export default function SplashScreen() {
             style={{
               fontSize: 28,
               fontWeight: "bold",
-              color: "#FFFFFF",
+              color: "#111111",
               marginTop: 20,
               textAlign: "center",
             }}
@@ -72,7 +72,7 @@ export default function SplashScreen() {
           <Text
             style={{
               fontSize: 16,
-              color: "#888888",
+              color: "#666666",
               marginTop: 12,
               textAlign: "center",
               lineHeight: 22,
@@ -83,7 +83,7 @@ export default function SplashScreen() {
           <Text
             style={{
               fontSize: 14,
-              color: "#666666",
+              color: "#6B7280",
               marginTop: 8,
               textAlign: "center",
               lineHeight: 20,
@@ -95,7 +95,7 @@ export default function SplashScreen() {
           <Text
             style={{
               fontSize: 14,
-              color: "#666666",
+              color: "#6B7280",
               marginTop: 4,
               textAlign: "center",
               lineHeight: 20,
