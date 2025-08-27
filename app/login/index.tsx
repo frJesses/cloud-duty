@@ -11,8 +11,10 @@ import { memo, useEffect, useRef, useState } from "react";
 import CustomTextInput from "@/components/common/TextInputArea";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Button, Checkbox, Link, Alert } from "native-base";
+import { Button, Checkbox, Link } from "native-base";
 import * as Haptics from "expo-haptics";
+import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 
 interface TabsProps {
   activeIndex: number;
@@ -110,15 +112,7 @@ const PressableTextWrapper = memo(({ activeIndex, onChange }: TabsProps) => {
   );
 });
 
-export default function LoginScreen() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
-  const [tabIndex, setTabIndex] = useState(0);
-  const [codeCooldown, setCodeCooldown] = useState(0);
-  const [isAgree, setIsAgree] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+function useShakeAniamted() {
   const shakeAnim = useRef(new Animated.Value(0)).current;
 
   const triggerShake = () => {
@@ -157,56 +151,33 @@ export default function LoginScreen() {
     ]).start();
   };
 
+  return { shakeAnim, triggerShake };
+}
+
+export default function LoginScreen() {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState("");
+  const [tabIndex, setTabIndex] = useState(0);
+  const [isAgree, setIsAgree] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { triggerShake, shakeAnim } = useShakeAniamted();
+
   const onLoginPress = async () => {
-    // 校验隐私政策
-    if (!isAgree) {
-      setErrorMessage("请先阅读并勾选隐私政策");
-      triggerShake();
-      // 触发跨端震动/触感反馈
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      return;
-    }
-
-    if (tabIndex === 0) {
-      // 基础校验 - 账号密码
-      if (!username || !password) {
-        setErrorMessage("请输入用户名和密码");
-        return;
-      }
-      // TODO: 调用密码登录接口
-      setErrorMessage("用户名或密码错误");
-    } else {
-      // 基础校验 - 手机验证码
-      if (!phone || !code) {
-        setErrorMessage("请输入手机号和验证码");
-        return;
-      }
-      // TODO: 调用验证码登录接口
-      setErrorMessage("验证码错误或已过期");
-    }
+    router.replace("/(tabs)/home");
+    // if (!isAgree) {
+    //   setErrorMessage("请先阅读并勾选隐私政策");
+    //   triggerShake();
+    //   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    //   return;
+    // }
   };
-
-  const onGetCode = () => {
-    if (codeCooldown > 0) return;
-    if (!phone) {
-      setErrorMessage("请先输入手机号");
-      return;
-    }
-    setErrorMessage("");
-    setCodeCooldown(60);
-  };
-
-  useEffect(() => {
-    if (codeCooldown <= 0) return;
-    const id = setInterval(() => {
-      setCodeCooldown((s) => (s > 0 ? s - 1 : 0));
-    }, 1000);
-    return () => clearInterval(id);
-  }, [codeCooldown]);
 
   return (
     <ImageBackground
-      source={require("../../assets/images/bg.png")}
+      source={require("@/assets/images/bg.png")}
       style={{ flex: 1, width: "100%" }}
       resizeMode="stretch"
     >
@@ -217,9 +188,6 @@ export default function LoginScreen() {
             keyboardShouldPersistTaps="handled"
           >
             <View className="flex-1 flex w-full relative">
-              <View className="flex flex-row flex-wrap absolute top-0 right-0 left-0 justify-center py-2 bg-red-600">
-                <Text className="text-white">这是错误信息</Text>
-              </View>
               <View className="px-10 mt-36 mb-20">
                 <Text className="text-3xl font-bold">您好!</Text>
                 <Text className="text-lg mt-3">欢迎登陆云值守系统</Text>
@@ -275,6 +243,9 @@ export default function LoginScreen() {
                       />
                     </>
                   )}
+                  <View className="flex flex-row flex-wrap">
+                    <Text className="text-red-600 text-sm">这是错误信息</Text>
+                  </View>
                   <Animated.View
                     style={{ transform: [{ translateX: shakeAnim }] }}
                   >
@@ -293,9 +264,8 @@ export default function LoginScreen() {
                         _text={{
                           fontSize: 10,
                           _light: {
-                            color: "cyan.500",
+                            color: Colors.light.sencond,
                           },
-                          color: "cyan.300",
                         }}
                         isUnderlined={false}
                       >
@@ -306,9 +276,8 @@ export default function LoginScreen() {
                         _text={{
                           fontSize: 10,
                           _light: {
-                            color: "cyan.500",
+                            color: Colors.light.sencond,
                           },
-                          color: "cyan.300",
                         }}
                         isUnderlined={false}
                       >
@@ -319,6 +288,9 @@ export default function LoginScreen() {
                   <Button
                     onPress={onLoginPress}
                     accessibilityLabel="立即登陆按钮"
+                    _text={{
+                      color: "#333",
+                    }}
                   >
                     立即登录
                   </Button>

@@ -123,7 +123,7 @@ export default function CustomTextInput({
 
       {isVerify && (
         <Pressable accessibilityRole="button" hitSlop={8} className="pr-2">
-          <Text className="text-red-400">获取验证码</Text>
+          <Text className="color-second text-sm">获取验证码</Text>
         </Pressable>
       )}
 

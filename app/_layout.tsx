@@ -7,13 +7,14 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import "./global.css";
 import * as NavigationBar from "expo-navigation-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // 保持启动屏可见
 SplashScreen.preventAutoHideAsync();
@@ -22,6 +23,23 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loadFont] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+  });
+
+  const theme = extendTheme({
+    colors: {
+      primary: {
+        50: "#FFFAE0",
+        100: "#FFF4BF",
+        200: "#FFEE99",
+        300: "#FFE873",
+        400: "#FFE24C",
+        500: "#FFDD26",
+        600: "#FFE100",
+        700: "#CCB400",
+        800: "#998800",
+        900: "#665C00",
+      },
+    },
   });
 
   useEffect(() => {
@@ -37,14 +55,20 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <SafeAreaProvider>
-          <Stack
-            screenOptions={{ headerShown: false }}
-            initialRouteName="splashScreen/index"
-          >
-            <Stack.Screen name="(tabs)" />
-          </Stack>
+          <GestureHandlerRootView>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                animation: "flip",
+              }}
+              initialRouteName="splashScreen/index"
+            >
+              <Stack.Screen name="(tabs)" />
+            </Stack>
+          </GestureHandlerRootView>
+
           <StatusBar translucent backgroundColor="transparent" />
         </SafeAreaProvider>
       </NativeBaseProvider>
