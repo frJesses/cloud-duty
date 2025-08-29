@@ -35,7 +35,7 @@ export default function SplashScreen() {
   }, []);
 
   const checkAuthAndNavigate = async () => {
-    router.replace("/login");
+    router.replace("/home");
   };
 
   return (

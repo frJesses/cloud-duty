@@ -66,6 +66,7 @@ export default function RootLayout() {
               initialRouteName="splashScreen/index"
             >
               <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="test-list" />
             </Stack>
           </GestureHandlerRootView>
 

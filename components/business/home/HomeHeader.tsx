@@ -1,22 +1,21 @@
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { View, Image, Text } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import Touch from "@/components/common/Touch";
 
 export default function HomeHeader() {
-  const handleSearchClick = () => {
-    console.log("搜索图标被点击了---->>>>");
-  };
+  const handleSearchClick = () => {};
 
   const handleStoreClick = () => {
-    console.log("门店名称被点击了----->>>>>");
+    router.push("/store/SelectStore");
   };
 
   return (
     <>
       <View className="flex flex-row items-center justify-between">
-        <TouchableOpacity
+        <Touch
           onPress={handleStoreClick}
           className="flex flex-row items-center gap-2 max-w-[60%]"
-          activeOpacity={0.6}
         >
           <MaterialCommunityIcons
             name="storefront-outline"
@@ -28,17 +27,17 @@ export default function HomeHeader() {
               支付宝专用测试门店支付宝专用测试门店支付宝专用测试门店
             </Text>
             <MaterialCommunityIcons
-              name="menu-down"
+              name="menu-right"
               size={28}
               color="#1A1A1A"
             />
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSearchClick} activeOpacity={0.6}>
+        </Touch>
+        <Touch onPress={handleSearchClick} activeOpacity={0.6}>
           <Ionicons name="search-outline" size={22} color="#1A1A1A" />
-        </TouchableOpacity>
+        </Touch>
       </View>
-      <View className="flex flex-row items-center gap-4 ml-8 mt-2">
+      <View className="flex flex-row items-center gap-4 ml-8 mt-2 mb-4">
         <View className="flex flex-row items-center gap-2">
           <Image
             source={require("@/assets/images/home/customer.png")}

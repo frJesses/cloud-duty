@@ -24,6 +24,9 @@ module.exports = {
         ".bg-second": {
           backgroundColor: Colors.light.sencondBackground,
         },
+        ".bg-theme": {
+          backgroundColor: Colors.light.primary,
+        },
         ".t-primary": {
           color: Colors.light.text
         },
