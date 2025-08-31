@@ -8,32 +8,18 @@ export const BANNER_ICON = {
   "compensation-process": require("@/assets/images/home/compensation-process.png"),
 }
 
-interface Banner {
+export interface Banner {
   title: string
   iconKey: keyof typeof BANNER_ICON
   path: string
 }
 
 export const BANNER_LIST: Banner[] = [
-  { title: "结班记录", iconKey: "closing-record", path: "" },
-  { title: "分类统计", iconKey: "category-statistics", path: "" },
+  { title: "结班记录", iconKey: "closing-record", path: "statistics/ClosingStatistics" },
+  { title: "分类统计", iconKey: "category-statistics", path: "statistics/CategoryStatistics" },
   { title: "分时统计", iconKey: "time-sharing-statistics", path: "" },
   { title: "商品销量", iconKey: "product-sales", path: "" },
   { title: "模式切换", iconKey: "mode-change", path: "" },
   { title: "值守记录", iconKey: "duty-record", path: "" },
-  { title: "赔付进度", iconKey: "compensation-process", path: "" },
-  { title: "结班记录", iconKey: "closing-record", path: "" },
-  { title: "分类统计", iconKey: "category-statistics", path: "" },
-  { title: "分时统计", iconKey: "time-sharing-statistics", path: "" },
-  { title: "商品销量", iconKey: "product-sales", path: "" },
-  { title: "模式切换", iconKey: "mode-change", path: "" },
-  { title: "值守记录", iconKey: "duty-record", path: "" },
-  { title: "赔付进度", iconKey: "compensation-process", path: "" },
-  { title: "结班记录", iconKey: "closing-record", path: "" },
-  { title: "分类统计", iconKey: "category-statistics", path: "" },
-  { title: "分时统计", iconKey: "time-sharing-statistics", path: "" },
-  { title: "商品销量", iconKey: "product-sales", path: "" },
-  { title: "模式切换", iconKey: "mode-change", path: "" },
-  { title: "值守记录", iconKey: "duty-record", path: "" },
-  { title: "赔付进度", iconKey: "compensation-process", path: "" },
+  { title: "赔付进度", iconKey: "compensation-process", path: "" }
 ]

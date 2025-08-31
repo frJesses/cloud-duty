@@ -23,7 +23,7 @@ export default function CustomHeader({ backCallBack, title, right }: Props) {
 
   return (
     <View className="h-12 px-4 relative flex flex-row items-center">
-      <View className="z-10 px-2">
+      <View className="z-10 pr-4">
         <Touch onPress={handleBackClick}>
           <MaterialIcons name="keyboard-backspace" size={28} color="#333" />
         </Touch>
@@ -35,7 +35,7 @@ export default function CustomHeader({ backCallBack, title, right }: Props) {
         </Text>
       </View>
 
-      <View className="ml-auto z-10 px-2">{right ?? null}</View>
+      <View className="ml-auto z-10 pl-4">{right ?? null}</View>
     </View>
   );
 }

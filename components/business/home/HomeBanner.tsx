@@ -1,8 +1,11 @@
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image } from "react-native";
 import { useMemo, useState } from "react";
-import { BANNER_LIST, BANNER_ICON } from "./utils";
+import { BANNER_LIST, BANNER_ICON, type Banner } from "./utils";
+import { type Href, useRouter } from "expo-router";
+import Touch from "@/components/common/Touch";
 
 export default function HomeBanner() {
+  const router = useRouter();
   const [containerWidth, setContainerWidth] = useState(0);
 
   const MIN_ITEM_WIDTH = 72;
@@ -23,6 +26,12 @@ export default function HomeBanner() {
     return { columns: cols, itemWidth: width };
   }, [containerWidth]);
 
+  function handleItemPress(item: Banner) {
+    if (item.path) {
+      router.push(item.path as Href);
+    }
+  }
+
   return (
     <View
       className="rounded-lg bg-white p-2 mt-4 flex flex-wrap flex-row"
@@ -37,16 +46,16 @@ export default function HomeBanner() {
             marginBottom: H_GAP,
           }}
         >
-          <TouchableOpacity
-            activeOpacity={0.7}
+          <Touch
             className="items-center justify-center rounded-md flex flex-col gap-3 py-2"
+            onPress={() => handleItemPress(item)}
           >
             <Image
               source={BANNER_ICON[item.iconKey]}
               className="w-[50px] h-[50px]"
             />
             <Text className="text-[12px] text-[#333]">{item.title}</Text>
-          </TouchableOpacity>
+          </Touch>
         </View>
       ))}
     </View>
