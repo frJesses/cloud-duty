@@ -72,7 +72,6 @@ export default function CategoryStatistics() {
   const actionRef = useRef<ActionSheetRef>(null);
 
   function handleActionCallback(item: Action) {
-    console.log(item, "item----->>>");
     setMode(item);
   }
 
