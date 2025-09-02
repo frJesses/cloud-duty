@@ -1,9 +1,12 @@
 import Layout from "@/layout";
-import React, { useState } from "react";
-import { Text, View, Platform, ScrollView, Animated } from "react-native";
-import { Button } from "native-base";
+import React, { useRef, useState } from "react";
+import { Text, View, ScrollView, Animated } from "react-native";
 import Touch from "@/components/common/Touch";
 import PullToRefresh from "@/components/common/PullToRefresh";
+import CustomActionsheet, {
+  ActionSheetRef,
+  Action,
+} from "@/components/common/ActionSheet";
 import { Ionicons } from "@expo/vector-icons";
 
 function CollapseItem({ children }: { children: React.ReactNode }) {
@@ -64,6 +67,14 @@ function CollapseItem({ children }: { children: React.ReactNode }) {
 
 export default function CategoryStatistics() {
   const array = new Array(30).fill(true);
+  const [mode, setMode] = useState<Action>({ label: "全部", value: null });
+
+  const actionRef = useRef<ActionSheetRef>(null);
+
+  function handleActionCallback(item: Action) {
+    console.log(item, "item----->>>");
+    setMode(item);
+  }
 
   return (
     <Layout title="分类统计">
@@ -73,9 +84,12 @@ export default function CategoryStatistics() {
             <Text className="text-base t-primary">请选择月份:</Text>
             <Text className="text-base t-second">2025-09</Text>
           </Touch>
-          <Touch className="flex flex-row flex-1 gap-3">
+          <Touch
+            className="flex flex-row flex-1 gap-3"
+            onPress={() => actionRef.current?.open()}
+          >
             <Text className="text-base t-primary">请选择模式:</Text>
-            <Text className="text-base t-second">全部</Text>
+            <Text className="text-base t-second">{mode.label}</Text>
           </Touch>
         </View>
         <PullToRefresh onRefresh={() => {}}>
@@ -127,6 +141,16 @@ export default function CategoryStatistics() {
             </View>
           </ScrollView>
         </PullToRefresh>
+
+        <CustomActionsheet
+          ref={actionRef}
+          actionList={[
+            { label: "全部", value: null },
+            { label: "云值守", value: 1 },
+            { label: "有人值守", value: 2 },
+          ]}
+          actionCallbak={handleActionCallback}
+        />
       </View>
     </Layout>
   );

@@ -3,6 +3,7 @@ import Layout from "@/layout";
 import { Text, View, useWindowDimensions, Pressable } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Touch from "@/components/common/Touch";
+import { Ionicons } from "@expo/vector-icons";
 
 const FirstRoute = () => (
   <View className="flex-1 justify-center items-center">
@@ -31,7 +32,14 @@ export default function ClosingStatistics() {
   });
 
   return (
-    <Layout title="结班记录">
+    <Layout
+      title="结班记录"
+      headerRight={
+        <Touch>
+          <Ionicons name="calendar" size={24} color="#333" />
+        </Touch>
+      }
+    >
       <View className="h-full">
         <TabView
           navigationState={{ index, routes }}
