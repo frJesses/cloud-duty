@@ -3,15 +3,6 @@ import Layout from "@/layout";
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  VictoryChart,
-  VictoryLine,
-  VictoryScatter,
-  VictoryAxis,
-  VictoryTooltip,
-  VictoryVoronoiContainer,
-  VictoryTheme,
-} from "victory-native";
 
 const { width } = Dimensions.get("window");
 
@@ -43,106 +34,7 @@ export default function DataStistics() {
       }
     >
       <View style={styles.container}>
-        <VictoryChart
-          width={width}
-          height={300}
-          theme={VictoryTheme.material}
-          padding={{ top: 40, bottom: 50, left: 40, right: 20 }}
-          domainPadding={{ x: 20 }}
-          domain={{
-            x: [0, 6], // X轴从0开始到6
-            y: [Math.max(0, minY - yPadding), maxY + yPadding], // 动态Y轴范围
-          }}
-          containerComponent={
-            <VictoryVoronoiContainer
-              labels={({ datum }) => `第${datum.x}天: ${datum.y}k`}
-              labelComponent={
-                <VictoryTooltip
-                  style={{ fontSize: 12, fontWeight: "bold" }}
-                  flyoutStyle={{
-                    stroke: "#FF6B6B",
-                    fill: "white",
-                    strokeWidth: 2,
-                  }}
-                  cornerRadius={8}
-                  pointerLength={6}
-                />
-              }
-              activateData={true}
-              activateLabels={true}
-            />
-          }
-        >
-          {/* 平滑的折线图 */}
-          <VictoryLine
-            data={data}
-            interpolation="natural" // 使用自然插值实现平滑线条
-            style={{
-              data: {
-                stroke: "#FF6B6B",
-                strokeWidth: 3,
-              },
-            }}
-          />
-
-          {/* 数据点 */}
-          <VictoryScatter
-            data={data}
-            size={6}
-            style={{
-              data: {
-                fill: "#FF6B6B",
-                stroke: "white",
-                strokeWidth: 2,
-              },
-            }}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-            labels={({ datum }) => `第${datum.x}天: ${datum.y}k`}
-            labelComponent={
-              <VictoryTooltip
-                style={{ fontSize: 12, fontWeight: "bold" }}
-                flyoutStyle={{
-                  stroke: "#FF6B6B",
-                  fill: "white",
-                  strokeWidth: 2,
-                }}
-                cornerRadius={8}
-                pointerLength={6}
-              />
-            }
-          />
-
-          {/* X轴 */}
-          <VictoryAxis
-            tickFormat={(t) => `第${t + 1}天`}
-            style={{
-              axis: { stroke: "#ccc", strokeWidth: 1 },
-              tickLabels: { fontSize: 12, fill: "#666", padding: 5 },
-              grid: { stroke: "#f0f0f0", strokeDasharray: "5,5" },
-            }}
-            tickCount={8}
-            tickValues={[0, 1, 2, 3, 4, 5, 6]}
-          />
-
-          {/* Y轴 */}
-          <VictoryAxis
-            dependentAxis
-            tickFormat={(t) => {
-              if (t >= 1000) {
-                return `${(t / 1000).toFixed(1)}k`;
-              }
-              return `${t}`;
-            }}
-            style={{
-              axis: { stroke: "#ccc", strokeWidth: 1 },
-              tickLabels: { fontSize: 12, fill: "#666", padding: 5 },
-              grid: { stroke: "#f0f0f0", strokeDasharray: "5,5" },
-            }}
-          />
-        </VictoryChart>
+        
       </View>
     </Layout>
   );
