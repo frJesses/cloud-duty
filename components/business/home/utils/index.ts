@@ -21,5 +21,5 @@ export const BANNER_LIST: Banner[] = [
   { title: "商品销量", iconKey: "product-sales", path: "commodity/CommoditySales" },
   { title: "模式切换", iconKey: "mode-change", path: "store/ChangeStoreMode" },
   { title: "值守记录", iconKey: "duty-record", path: "duty/DutyRecords" },
-  { title: "赔付进度", iconKey: "compensation-process", path: "" }
+  { title: "赔付进度", iconKey: "compensation-process", path: "compensation/CompensationProgress" }
 ]
