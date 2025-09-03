@@ -20,6 +20,6 @@ export const BANNER_LIST: Banner[] = [
   { title: "分时统计", iconKey: "time-sharing-statistics", path: "statistics/TimeSharing" },
   { title: "商品销量", iconKey: "product-sales", path: "commodity/CommoditySales" },
   { title: "模式切换", iconKey: "mode-change", path: "store/ChangeStoreMode" },
-  { title: "值守记录", iconKey: "duty-record", path: "" },
+  { title: "值守记录", iconKey: "duty-record", path: "duty/DutyRecords" },
   { title: "赔付进度", iconKey: "compensation-process", path: "" }
 ]

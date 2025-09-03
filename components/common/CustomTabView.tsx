@@ -15,11 +15,13 @@ interface Props<Route extends { key: string } = { key: string }>
   > {
   tabMap: RouteMap[];
   sceneMap: { [key: string]: React.ComponentType };
+  tabBarBg?: string;
 }
 
 export default function CustomTabView({
   tabMap,
   sceneMap,
+  tabBarBg = "transparent",
   ...otherProps
 }: Props) {
   const [index, setIndex] = React.useState(0);
@@ -40,9 +42,10 @@ export default function CustomTabView({
             backgroundColor: "#EFF100",
             height: 3,
             borderRadius: 4,
+            bottom: -1,
           }}
           style={{
-            backgroundColor: "transparent",
+            backgroundColor: tabBarBg,
             shadowColor: "transparent",
             borderBottomColor: "#ccc",
             borderBottomWidth: 1,

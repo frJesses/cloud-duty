@@ -1,7 +1,6 @@
 import Touch from "@/components/common/Touch";
 import Layout from "@/layout";
 import { View, Text, ScrollView } from "react-native";
-import Svg, { Rect, Text as SvgText } from "react-native-svg";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import CustomActionsheet, {
   ActionSheetRef,
