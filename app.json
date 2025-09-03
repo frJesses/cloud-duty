@@ -21,7 +21,7 @@
     "androidNavigationBar": {
       "backgroundColor": "#FFFFFF",
       "barStyle": "dark-content",
-      "visible": "immersive"
+      "visible": "visible"
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF",

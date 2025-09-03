@@ -14,7 +14,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import "./global.css";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { KeyboardProvider } from "react-native-keyboard-controller";
 
 // 保持启动屏可见
 SplashScreen.preventAutoHideAsync();
@@ -53,18 +52,16 @@ export default function RootLayout() {
       <NativeBaseProvider theme={theme}>
         <SafeAreaProvider>
           <GestureHandlerRootView>
-            <KeyboardProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  animation: "flip",
-                }}
-                initialRouteName="splashScreen/index"
-              >
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="test-list" />
-              </Stack>
-            </KeyboardProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                animation: "fade",
+              }}
+              initialRouteName="splashScreen/index"
+            >
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="test-list" />
+            </Stack>
           </GestureHandlerRootView>
           <StatusBar translucent backgroundColor="transparent" />
         </SafeAreaProvider>
