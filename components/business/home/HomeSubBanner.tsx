@@ -1,7 +1,14 @@
 import { View, Image, Text } from "react-native";
 import Touch from "@/components/common/Touch";
+import { useRouter } from "expo-router";
 
 export default function HomeSubBanner() {
+  const router = useRouter();
+
+  function handleItemClick() {
+    router.push("/order/OrderManagement");
+  }
+
   return (
     <View className="flex flex-row mt-4 gap-3">
       <Touch
@@ -27,6 +34,7 @@ export default function HomeSubBanner() {
       <Touch
         activeOpacity={0.7}
         className="flex items-center justify-center bg-white rounded-lg flex-1 h-[80px] relative"
+        onPress={handleItemClick}
       >
         <Text>订单管理</Text>
         <Image
