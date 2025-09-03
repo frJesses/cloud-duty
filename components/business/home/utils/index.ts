@@ -6,6 +6,8 @@ export const BANNER_ICON = {
   "mode-change": require("@/assets/images/home/mode-change.png"),
   "duty-record": require("@/assets/images/home/duty-record.png"),
   "compensation-process": require("@/assets/images/home/compensation-process.png"),
+  "product-create-record": require("@/assets/images/home/product-create-record.png"),
+  "inventory-management": require("@/assets/images/home/inventory-management.png")
 }
 
 export interface Banner {
@@ -19,6 +21,8 @@ export const BANNER_LIST: Banner[] = [
   { title: "分类统计", iconKey: "category-statistics", path: "statistics/CategoryStatistics" },
   { title: "分时统计", iconKey: "time-sharing-statistics", path: "statistics/TimeSharing" },
   { title: "商品销量", iconKey: "product-sales", path: "commodity/CommoditySales" },
+  { title: "商品建档", iconKey: "product-create-record", path: "commodity/ProductFiling" },
+  { title: "库存管理", iconKey: "inventory-management", path: "commodity/InventoryManagement" },
   { title: "模式切换", iconKey: "mode-change", path: "store/ChangeStoreMode" },
   { title: "值守记录", iconKey: "duty-record", path: "duty/DutyRecords" },
   { title: "赔付进度", iconKey: "compensation-process", path: "compensation/CompensationProgress" }
