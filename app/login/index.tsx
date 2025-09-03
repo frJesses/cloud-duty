@@ -10,7 +10,7 @@ import {
 import { memo, useEffect, useRef, useState } from "react";
 import CustomTextInput from "@/components/common/TextInputArea";
 import { Ionicons } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Button, Checkbox, Link } from "native-base";
 import * as Haptics from "expo-haptics";
 import { Colors } from "@/constants/Colors";
@@ -182,7 +182,7 @@ export default function LoginScreen() {
       resizeMode="stretch"
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
@@ -298,7 +298,7 @@ export default function LoginScreen() {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </ImageBackground>
   );
