@@ -7,9 +7,15 @@ interface Props {
   children: React.ReactElement;
   title?: string;
   headerRight?: React.ReactNode;
+  showArrow?: Boolean;
 }
 
-export default function Layout({ children, title, headerRight }: Props) {
+export default function Layout({
+  children,
+  title,
+  headerRight,
+  showArrow,
+}: Props) {
   return (
     <ImageBackground
       source={require("@/assets/images/bg.png")}
@@ -24,7 +30,13 @@ export default function Layout({ children, title, headerRight }: Props) {
           overflow: "hidden",
         }}
       >
-        {title && <CustomHeader title={title} right={headerRight} />}
+        {title && (
+          <CustomHeader
+            title={title}
+            right={headerRight}
+            showLeft={showArrow}
+          />
+        )}
         <View className="flex-1 flex-col flex">{children}</View>
       </SafeAreaView>
     </ImageBackground>
