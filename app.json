@@ -8,7 +8,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "需要使用相机来拍摄照片和扫描二维码"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -16,7 +19,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.wwlbody.clouddutywww",
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": ["CAMERA"]
     },
     "androidNavigationBar": {
       "backgroundColor": "#FFFFFF",
@@ -48,6 +52,13 @@
             "resizeMode": "contain",
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      "expo-barcode-scanner",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "允许使用相机来拍照和扫描二维码"
         }
       ]
     ],

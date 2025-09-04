@@ -85,21 +85,21 @@ export default function ClosingStatistics() {
                 <View className="flex flex-row mt-4">
                   <View className="flex-1 flex flex-col justify-center items-center gap-2">
                     <Image
-                      source={require("@/assets/images/statistics/balance.png")}
+                      source={require("@/assets/images/order/balance.png")}
                       className="w-14 h-14"
                     />
                     <Text>¥0.00元</Text>
                   </View>
                   <View className="flex-1 flex flex-col justify-center items-center gap-2">
                     <Image
-                      source={require("@/assets/images/statistics/wxpay.png")}
+                      source={require("@/assets/images/order/wxpay.png")}
                       className="w-14 h-14"
                     />
                     <Text>¥0.00元</Text>
                   </View>
                   <View className="flex-1 flex flex-col justify-center items-center gap-2">
                     <Image
-                      source={require("@/assets/images/statistics/alipay.png")}
+                      source={require("@/assets/images/order/alipay.png")}
                       className="w-14 h-14"
                     />
                     <Text>¥0.00元</Text>
