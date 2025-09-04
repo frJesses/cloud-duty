@@ -8,9 +8,15 @@ interface Props {
   backCallBack?: () => void;
   title: string;
   right?: React.ReactNode;
+  showLeft?: Boolean;
 }
 
-export default function CustomHeader({ backCallBack, title, right }: Props) {
+export default function CustomHeader({
+  backCallBack,
+  title,
+  right,
+  showLeft = true,
+}: Props) {
   const router = useRouter();
 
   function handleBackClick() {
@@ -24,9 +30,11 @@ export default function CustomHeader({ backCallBack, title, right }: Props) {
   return (
     <View className="h-12 px-4 relative flex flex-row items-center">
       <View className="z-10 pr-4">
-        <Touch onPress={handleBackClick}>
-          <MaterialIcons name="keyboard-backspace" size={28} color="#333" />
-        </Touch>
+        {showLeft && (
+          <Touch onPress={handleBackClick}>
+            <MaterialIcons name="keyboard-backspace" size={28} color="#333" />
+          </Touch>
+        )}
       </View>
 
       <View className="absolute inset-0 items-center justify-center fle flex-row">
