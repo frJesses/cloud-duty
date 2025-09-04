@@ -17,11 +17,11 @@ export default function PcitureItem() {
       </View>
       <Touch
         onPress={() => {}}
-        className="absolute w-20 h-20 right-2 bottom-2 border-[1px] border-[#aaa] p-4 rounded-full flex flex-col justify-center items-center gap-1 opacity-70"
+        className="absolute w-16 h-16 right-2 bottom-2 border-[1px] border-[#aaa] p-4 rounded-full flex flex-col justify-center items-center gap-1 opacity-70"
       >
         <Image
           source={require("@/assets/images/monitor/detail.png")}
-          className="w-8 h-8"
+          className="w-7 h-7"
         />
         <Text className="text-xs text-white">回看</Text>
       </Touch>
