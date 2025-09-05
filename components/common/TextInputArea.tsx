@@ -29,6 +29,7 @@ interface CustomTextInputProps extends Omit<TextInputProps, "style"> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   iconSize?: number;
+  errorText?: string;
 }
 
 export default function CustomTextInput({
@@ -51,6 +52,7 @@ export default function CustomTextInput({
   rightIcon,
   iconSize = 20,
   isVerify = false,
+  errorText = "",
   ...restProps
 }: CustomTextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -66,72 +68,80 @@ export default function CustomTextInput({
     onBlur?.();
   };
 
+  const borderColor = errorText ? "#f5222d" : isFocused ? "#EFA100" : "#E5E5E5";
+  const bgColor = editable ? "#fff" : "#f5f5f5";
+
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          borderColor: isFocused ? "#EFA100" : "#E5E5E5",
-          backgroundColor: editable ? "#fff" : "#f5f5f5",
-        },
-        containerStyle,
-      ]}
-    >
-      {leftIcon && (
-        <View style={[styles.iconContainer, styles.leftIcon]}>{leftIcon}</View>
-      )}
-
-      <TextInput
-        placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor}
-        value={value}
-        onChangeText={onChangeText}
-        secureTextEntry={isPassword && !isPasswordVisible}
-        maxLength={maxLength}
-        keyboardType={keyboardType}
-        multiline={multiline}
-        numberOfLines={numberOfLines}
-        editable={editable}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onSubmitEditing={onSubmitEditing}
+    <View className="flex flex-col">
+      <View
         style={[
-          styles.input,
+          styles.container,
           {
-            paddingLeft: leftIcon ? 40 : 12,
-            paddingRight: isPassword ? 40 : rightIcon ? 40 : 12,
+            borderColor,
+            backgroundColor: bgColor,
           },
-          inputStyle,
+          containerStyle,
         ]}
-        {...restProps}
-      />
+      >
+        {leftIcon && (
+          <View style={[styles.iconContainer, styles.leftIcon]}>
+            {leftIcon}
+          </View>
+        )}
 
-      {isPassword && (
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => setIsPasswordVisible((prev) => !prev)}
-          style={[styles.iconContainer, styles.rightIcon]}
-          hitSlop={8}
-        >
-          <Ionicons
-            name={isPasswordVisible ? "eye" : "eye-off"}
-            size={20}
-            color="#999"
-          />
-        </Pressable>
-      )}
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={isPassword && !isPasswordVisible}
+          maxLength={maxLength}
+          keyboardType={keyboardType}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          editable={editable}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onSubmitEditing={onSubmitEditing}
+          style={[
+            styles.input,
+            {
+              paddingLeft: leftIcon ? 40 : 12,
+              paddingRight: isPassword ? 40 : rightIcon ? 40 : 12,
+            },
+            inputStyle,
+          ]}
+          {...restProps}
+        />
 
-      {isVerify && (
-        <Pressable accessibilityRole="button" hitSlop={8} className="pr-2">
-          <Text className="color-second text-sm">获取验证码</Text>
-        </Pressable>
-      )}
+        {isPassword && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setIsPasswordVisible((prev) => !prev)}
+            style={[styles.iconContainer, styles.rightIcon]}
+            hitSlop={8}
+          >
+            <Ionicons
+              name={isPasswordVisible ? "eye" : "eye-off"}
+              size={20}
+              color="#999"
+            />
+          </Pressable>
+        )}
 
-      {Boolean(rightIcon && !isVerify && !isPassword) && (
-        <View style={[styles.iconContainer, styles.rightIcon]}>
-          {rightIcon}
-        </View>
-      )}
+        {isVerify && (
+          <Pressable accessibilityRole="button" hitSlop={8} className="pr-2">
+            <Text className="color-second text-sm">获取验证码</Text>
+          </Pressable>
+        )}
+
+        {Boolean(rightIcon && !isVerify && !isPassword) && (
+          <View style={[styles.iconContainer, styles.rightIcon]}>
+            {rightIcon}
+          </View>
+        )}
+      </View>
+      {Boolean(errorText) && <Text className="mt-1 text-xs text-red-500">{errorText}</Text>}
     </View>
   );
 }

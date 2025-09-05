@@ -1,5 +1,3 @@
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
@@ -8,7 +6,6 @@ import { TouchableOpacity } from "react-native";
 import { TABS_LIST } from "@/constants/Tabs";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   function CustomTabButton(props: any) {
     return <TouchableOpacity {...props} activeOpacity={1} />;

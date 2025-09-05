@@ -1,6 +1,5 @@
 import { View, ScrollView } from "react-native";
 import Layout from "@/layout";
-import PullToRefresh from "@/components/common/PullToRefresh";
 import HomeHeader from "@/components/business/home/HomeHeader";
 import HomeBanner from "@/components/business/home/HomeBanner";
 import HomeStatistice from "@/components/business/home/HomeStatistics";
@@ -12,16 +11,12 @@ export default function HomeScreen() {
     <Layout>
       <View className="h-full p-3">
         <HomeHeader />
-        <PullToRefresh
-          onRefresh={() => new Promise((res) => setTimeout(res, 2000))}
-        >
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <HomeStatistice />
-            <HomeSubBanner />
-            <HomeToDoList />
-            <HomeBanner />
-          </ScrollView>
-        </PullToRefresh>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <HomeStatistice />
+          <HomeSubBanner />
+          <HomeToDoList />
+          <HomeBanner />
+        </ScrollView>
       </View>
     </Layout>
   );

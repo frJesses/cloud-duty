@@ -1,19 +1,17 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  ImageBackground,
-  Pressable,
-  Animated,
-  ScrollView,
-} from "react-native";
+import { View, Text, Pressable, Animated, ScrollView } from "react-native";
+import Layout from "@/layout";
 import { memo, useEffect, useRef, useState } from "react";
 import CustomTextInput from "@/components/common/TextInputArea";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Checkbox, Link } from "native-base";
-import * as Haptics from "expo-haptics";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
+import * as Haptics from "expo-haptics";
+import { useRequest } from "ahooks";
+import { signup } from "@/api/user";
+import Storage from "@/utils/cache";
+import { StorageKey } from "@/constants/storage";
+import { useCommonStore } from "@/store/modules/common";
 
 interface TabsProps {
   activeIndex: number;
@@ -154,145 +152,154 @@ function useShakeAniamted() {
 }
 
 export default function LoginScreen() {
+  const { fetchStorePage, storeList } = useCommonStore();
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+  const [query, setQuery] = useState<Api.Request.SignParams>({
+    phone: "15387770948",
+    password: "134708*",
+    code: "",
+  });
   const [tabIndex, setTabIndex] = useState(0);
-  const [isAgree, setIsAgree] = useState(false);
+  const [isAgree, setIsAgree] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { triggerShake, shakeAnim } = useShakeAniamted();
 
-  const onLoginPress = async () => {
-    router.replace("/(tabs)/home");
-    // if (!isAgree) {
-    //   setErrorMessage("请先阅读并勾选隐私政策");
-    //   triggerShake();
-    //   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    //   return;
-    // }
-  };
+  const { loading, runAsync } = useRequest(() => signup(query), {
+    manual: true,
+  });
+
+  async function handleSubmitClick() {
+    if (!isAgree) {
+      setErrorMessage("请先阅读并勾选隐私政策");
+      triggerShake();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return;
+    }
+    runAsync()
+      .then(async (res) => {
+        setErrorMessage("");
+        await Storage.set(StorageKey.TOKEN, res.token);
+        await fetchStorePage();
+        const list = useCommonStore.getState().storeList;
+        if (list.length > 1) {
+          router.replace("/(tabs)/home");
+        }
+      })
+      .catch((err) => {
+        setErrorMessage(err);
+      });
+  }
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/bg.png")}
-      style={{ flex: 1, width: "100%" }}
-      resizeMode="stretch"
-    >
-      <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View className="flex-1 flex w-full relative">
-            <View className="px-10 mt-36 mb-20">
-              <Text className="text-3xl font-bold">您好!</Text>
-              <Text className="text-lg mt-3">欢迎登陆云值守系统</Text>
-            </View>
-            <View className="px-10">
-              <PressableTextWrapper
-                activeIndex={tabIndex}
-                onChange={setTabIndex}
+    <Layout>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View className="flex-1 flex w-full relative">
+          <View className="px-10 mt-36 mb-20">
+            <Text className="text-3xl font-bold">您好!</Text>
+            <Text className="text-lg mt-3">欢迎登陆云值守系统</Text>
+          </View>
+          <View className="px-10">
+            <PressableTextWrapper
+              activeIndex={tabIndex}
+              onChange={setTabIndex}
+            />
+            <View className="mt-6 space-y-4 flex flex-col gap-5">
+              <CustomTextInput
+                placeholder="请输入手机号"
+                value={query.phone}
+                onChangeText={(text) =>
+                  setQuery({ ...query, phone: text.trim() })
+                }
+                leftIcon={<Ionicons name="person" size={20} color="#999" />}
+                keyboardType="numeric"
               />
-              <View className="mt-6 space-y-4 flex flex-col gap-5">
-                {tabIndex === 0 ? (
-                  <>
-                    <CustomTextInput
-                      placeholder="请输入用户名"
-                      value={username}
-                      onChangeText={setUsername}
-                      leftIcon={
-                        <Ionicons name="person" size={20} color="#999" />
-                      }
-                    />
-                    <CustomTextInput
-                      placeholder="请输入密码"
-                      value={password}
-                      onChangeText={setPassword}
-                      isPassword={true}
-                      leftIcon={
-                        <Ionicons name="lock-closed" size={20} color="#999" />
-                      }
-                    />
-                  </>
-                ) : (
-                  <>
-                    <CustomTextInput
-                      placeholder="请输入手机号"
-                      value={phone}
-                      onChangeText={setPhone}
-                      keyboardType="phone-pad"
-                      leftIcon={<Ionicons name="call" size={20} color="#999" />}
-                      maxLength={11}
-                    />
-                    <CustomTextInput
-                      placeholder="请输入验证码"
-                      value={code}
-                      onChangeText={setCode}
-                      keyboardType="number-pad"
-                      maxLength={6}
-                      isVerify
-                      leftIcon={<Ionicons name="key" size={20} color="#999" />}
-                    />
-                  </>
-                )}
+              {tabIndex === 0 ? (
+                <>
+                  <CustomTextInput
+                    placeholder="请输入密码"
+                    value={query.password}
+                    onChangeText={(text) =>
+                      setQuery({ ...query, password: text.trim() })
+                    }
+                    isPassword={true}
+                    leftIcon={
+                      <Ionicons name="lock-closed" size={20} color="#999" />
+                    }
+                  />
+                </>
+              ) : (
+                <CustomTextInput
+                  placeholder="请输入验证码"
+                  value={query.code}
+                  onChangeText={(text) =>
+                    setQuery({ ...query, code: text.trim() })
+                  }
+                  keyboardType="number-pad"
+                  maxLength={6}
+                  isVerify
+                  leftIcon={<Ionicons name="key" size={20} color="#999" />}
+                />
+              )}
+              {Boolean(errorMessage) && (
                 <View className="flex flex-row flex-wrap">
-                  <Text className="text-red-600 text-sm">这是错误信息</Text>
+                  <Text className="text-red-600 text-sm">{errorMessage}</Text>
                 </View>
-                <Animated.View
-                  style={{ transform: [{ translateX: shakeAnim }] }}
+              )}
+
+              <Animated.View style={{ transform: [{ translateX: shakeAnim }] }}>
+                <Checkbox
+                  size="sm"
+                  value="agree"
+                  isChecked={isAgree}
+                  onChange={setIsAgree}
+                  _icon={{ size: 2 }}
+                  _text={{ fontSize: 10, ml: 0, color: "#9A9A9A" }}
+                  borderWidth={1}
+                  accessibilityLabel="同意服务条款与隐私政策"
                 >
-                  <Checkbox
-                    size="sm"
-                    value="agree"
-                    isChecked={isAgree}
-                    onChange={setIsAgree}
-                    _icon={{ size: 2 }}
-                    _text={{ fontSize: 10, ml: 0, color: "#9A9A9A" }}
-                    borderWidth={1}
-                    accessibilityLabel="同意服务条款与隐私政策"
+                  我已阅读并同意
+                  <Link
+                    _text={{
+                      fontSize: 10,
+                      _light: {
+                        color: Colors.light.sencond,
+                      },
+                    }}
+                    isUnderlined={false}
                   >
-                    我已阅读并同意
-                    <Link
-                      _text={{
-                        fontSize: 10,
-                        _light: {
-                          color: Colors.light.sencond,
-                        },
-                      }}
-                      isUnderlined={false}
-                    >
-                      《云值守商家服务条款》
-                    </Link>
-                    和
-                    <Link
-                      _text={{
-                        fontSize: 10,
-                        _light: {
-                          color: Colors.light.sencond,
-                        },
-                      }}
-                      isUnderlined={false}
-                    >
-                      《隐私政策》
-                    </Link>
-                  </Checkbox>
-                </Animated.View>
-                <Button
-                  onPress={onLoginPress}
-                  accessibilityLabel="立即登陆按钮"
-                  _text={{
-                    color: "#333",
-                  }}
-                >
-                  立即登录
-                </Button>
-              </View>
+                    《云值守商家服务条款》
+                  </Link>
+                  和
+                  <Link
+                    _text={{
+                      fontSize: 10,
+                      _light: {
+                        color: Colors.light.sencond,
+                      },
+                    }}
+                    isUnderlined={false}
+                  >
+                    《隐私政策》
+                  </Link>
+                </Checkbox>
+              </Animated.View>
+              <Button
+                onPress={handleSubmitClick}
+                accessibilityLabel="立即登陆按钮"
+                isLoading={loading}
+                _text={{
+                  color: "#333",
+                }}
+              >
+                立即登录
+              </Button>
             </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </ImageBackground>
+        </View>
+      </ScrollView>
+    </Layout>
   );
 }

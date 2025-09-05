@@ -2,8 +2,11 @@ import { View, Image, Text } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Touch from "@/components/common/Touch";
+import { useCommonStore } from "@/store";
 
 export default function HomeHeader() {
+  const { currentStore } = useCommonStore();
+
   const handleSearchClick = () => {};
 
   const handleStoreClick = () => {
@@ -24,7 +27,7 @@ export default function HomeHeader() {
           />
           <View className="flex flex-row items-center">
             <Text className="text-xl font-bold" numberOfLines={1}>
-              支付宝专用测试门店支付宝专用测试门店支付宝专用测试门店
+              {currentStore?.name}
             </Text>
             <MaterialCommunityIcons
               name="menu-right"
