@@ -29,6 +29,7 @@ export function useLogin() {
       currentStore = list[0];
     }
     setCurrentStore(currentStore);
+    await Storage.set(StorageKey.CURRENTSTORE, currentStore);
     router.replace("/(tabs)/home");
   }
 

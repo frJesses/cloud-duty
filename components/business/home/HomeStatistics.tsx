@@ -5,6 +5,7 @@ import { View, Text } from "react-native";
 import { CountUp } from "use-count-up";
 import { getStatisticeData } from "@/api/statistics";
 import MathUtils from "@/utils/mathUtils";
+import { useHomeRefresh } from "./context/HomeContext";
 
 interface StatisticsProps {
   pressCallback: () => void;
@@ -37,15 +38,15 @@ function StatisticsItem(props: StatisticsProps) {
               isCounting
               start={0}
               end={countInfo.integer}
-              duration={1}
+              duration={1.2}
             />
           </Text>
           <Text className="color-second font-bold text-xl">.</Text>
           <Text className="color-second font-bold text-xl">
-            <CountUp isCounting end={countInfo.second} duration={1} />
+            <CountUp isCounting start={0} end={countInfo.second} duration={1} />
           </Text>
           <Text className="color-second font-bold text-xl">
-            <CountUp isCounting end={countInfo.third} duration={1} />
+            <CountUp isCounting start={0} end={countInfo.third} duration={1} />
           </Text>
         </View>
         <View className="flex flex-row gap-2">
@@ -53,7 +54,12 @@ function StatisticsItem(props: StatisticsProps) {
           <Text className="text-[14px] t-second">{subTitle}</Text>
         </View>
         <Text className="t-primary text-[16px]">
-          <CountUp isCounting end={countInfo?.count || 0} duration={1} />
+          <CountUp
+            isCounting
+            start={0}
+            end={countInfo?.count || 0}
+            duration={1}
+          />
         </Text>
       </View>
     </Touch>
@@ -64,10 +70,11 @@ export default function HomeStatistice() {
   const router = useRouter();
   const [statistics, setStatistice] =
     useState<Api.Response.HomeStatistics | null>(null);
+  const { refreshCount } = useHomeRefresh();
 
   useEffect(() => {
     initData();
-  }, []);
+  }, [refreshCount]);
 
   async function initData() {
     const res = await getStatisticeData();
@@ -105,12 +112,14 @@ export default function HomeStatistice() {
         subTitle="总订单数"
         countInfo={total}
         pressCallback={handleDataClick}
+        key={`total-${refreshCount}`}
       />
       <StatisticsItem
         title="云值守营业额"
         subTitle="云值守订单数"
         countInfo={noHunman}
         pressCallback={handleDataClick}
+        key={`nohuman-${refreshCount}`}
       />
     </View>
   );

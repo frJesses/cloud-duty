@@ -45,6 +45,7 @@ declare namespace Api {
       isMedicineIndustry: boolean;
       showOutOrderMenu: boolean;
       showProductAndInventoryMenu: boolean;
+      isAuthorizationStore: boolean;
     }
 
     interface HomeStatistics {
