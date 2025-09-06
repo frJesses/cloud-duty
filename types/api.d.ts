@@ -54,5 +54,50 @@ declare namespace Api {
       paidCount: number;
       nonhumanCount: number;
     }
+
+    interface CurrentUser {
+      authorizationPhones: string[];
+      createdAt: string;
+      key: string;
+      nickname: string;
+      phone: string;
+      prepaidAccountState: number;
+      prepaidMyAccountNo: string;
+      withdrawConfig: {
+        alipay: {
+          account: string;
+          avatar: string;
+          enabled: boolean;
+          mobile: string;
+          nickName: string;
+        };
+      };
+    }
+
+    interface ReturnInfo {
+      doctorCount: number;
+      examiningPartyCount: number;
+      human: boolean;
+      isMedicine: boolean;
+      lightBarDevice: {};
+      noShelfLightCount: number;
+      onlineStatus: number;
+      storeType: number;
+      useCustomizeCategory: boolean;
+      useShelfLight: boolean;
+    }
+
+    interface InternalGoods {
+      _id: string;
+      barCode: string;
+      id: number;
+      isBuildFile: boolean;
+      isDeleteBtn: number;
+      name: string;
+      num: number;
+      purPrice: number;
+      salePrice: number;
+      storeKey: string;
+    }
   }
 }

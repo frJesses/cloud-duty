@@ -53,7 +53,6 @@ export default function SplashScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar style="dark" backgroundColor="#FFFFFF" />
       <View className="flex-1 justify-center items-center bg-white">
-        {/* Logo 动画 */}
         <Animated.View
           style={{
             opacity: fadeAnim,

@@ -42,7 +42,7 @@ class HYRequest {
         if (res.code < 0) {
           return Promise.reject(res.msg);
         }
-        return res.data;
+        return res.data || res;
       },
       (error) => {
         return Promise.reject(error);
@@ -63,4 +63,4 @@ class HYRequest {
   }
 }
 
-export default new HYRequest(api.prod);
+export default new HYRequest(api.starriver);

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 type HomeContext = {
   refreshCount: number;
-  setRefreshCount: (b: number) => void;
+  setRefreshCount: (value: number | ((prev: number) => number)) => void;
 };
 
 type HomeProvider = {

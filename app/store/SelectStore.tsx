@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import { useCommonStore } from "@/store";
 import Touch from "@/components/common/Touch";
 import { useRouter } from "expo-router";
-import Storage from "@/utils/cache";
-import { StorageKey } from "@/constants/storage";
 
 function StoreItem({ itemData }: { itemData: Api.Response.StoreItem }) {
   const router = useRouter();
@@ -15,7 +13,6 @@ function StoreItem({ itemData }: { itemData: Api.Response.StoreItem }) {
 
   async function handleItemClick() {
     await setCurrentStore(itemData);
-    await Storage.set(StorageKey.CURRENTSTORE, itemData);
     router.back();
   }
 
@@ -69,7 +66,7 @@ export default function SelectStore() {
         <View className="my-3">
           <SearchBar />
         </View>
-        <ScrollView className="h-full bg-white">
+        <ScrollView className="bg-white">
           {storeList.map((item) => (
             <StoreItem itemData={item} key={item._id} />
           ))}

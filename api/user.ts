@@ -37,3 +37,9 @@ export function sendSms(phone: string) {
     data: { phone },
   });
 }
+
+export function getCurrentUser() {
+  return HYRequest.get<Api.Response.CurrentUser>({
+    url: "/api/user/info",
+  });
+}

@@ -15,7 +15,7 @@ function HomeContent() {
   const { setRefreshCount } = useHomeRefresh();
 
   const handlePageFocus = useCallback(() => {
-    setRefreshCount(prev => prev + 1);
+    setRefreshCount((prev) => prev + 1);
   }, [setRefreshCount]);
 
   usePageFocus(handlePageFocus, true);
@@ -26,8 +26,8 @@ function HomeContent() {
         <HomeHeader />
         <ScrollView showsVerticalScrollIndicator={false}>
           <HomeStatistice />
-          <HomeSubBanner />
           <HomeToDoList />
+          <HomeSubBanner />
           <HomeBanner />
         </ScrollView>
       </View>
