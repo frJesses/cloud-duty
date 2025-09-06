@@ -8,11 +8,15 @@ interface CommonStore {
   storeList: Api.Response.StoreItem[];
   fetchStorePage: () => Promise<void>;
   currentStore: Api.Response.StoreItem | null;
+  setCurrentStore: (store: Api.Response.StoreItem | null) => void;
 }
 
 export const useCommonStore = create<CommonStore>((set) => ({
   storeList: [],
   currentStore: null,
+  setCurrentStore: (newStore = null) => {
+    set({ currentStore: newStore });
+  },
   fetchStorePage: async () => {
     try {
       const data = await getStoreList({ page: 0, size: 1000 });

@@ -2,14 +2,14 @@ import { Text, View, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
-import { useCommonStore } from "@/store/modules/common";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { signup } from "@/api/user";
+import { useLogin } from "@/hooks/useLogin";
 
 export default function SplashScreen() {
   const router = useRouter();
-  const { fetchStorePage } = useCommonStore();
+  const { handleLogin } = useLogin();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.3)).current;
 
@@ -43,8 +43,7 @@ export default function SplashScreen() {
         router.replace("/login");
         return;
       }
-      await fetchStorePage();
-      router.replace("/(tabs)/home");
+      await handleLogin();
     } catch (err) {
       router.replace("/login");
     }

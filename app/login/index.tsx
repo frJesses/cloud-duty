@@ -5,13 +5,12 @@ import CustomTextInput from "@/components/common/TextInputArea";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Checkbox, Link } from "native-base";
 import { Colors } from "@/constants/Colors";
-import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useRequest } from "ahooks";
 import { signup } from "@/api/user";
 import Storage from "@/utils/cache";
 import { StorageKey } from "@/constants/storage";
-import { useCommonStore } from "@/store/modules/common";
+import { useLogin } from "@/hooks/useLogin";
 
 interface TabsProps {
   activeIndex: number;
@@ -152,10 +151,9 @@ function useShakeAniamted() {
 }
 
 export default function LoginScreen() {
-  const { fetchStorePage, storeList } = useCommonStore();
-  const router = useRouter();
+  const { handleLogin } = useLogin();
   const [query, setQuery] = useState<Api.Request.SignParams>({
-    phone: "15387770948",
+    phone: "13430401702",
     password: "134708*",
     code: "",
   });
@@ -179,11 +177,7 @@ export default function LoginScreen() {
       .then(async (res) => {
         setErrorMessage("");
         await Storage.set(StorageKey.TOKEN, res.token);
-        await fetchStorePage();
-        const list = useCommonStore.getState().storeList;
-        if (list.length > 1) {
-          router.replace("/(tabs)/home");
-        }
+        await handleLogin();
       })
       .catch((err) => {
         setErrorMessage(err);
