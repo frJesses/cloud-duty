@@ -46,6 +46,10 @@ declare namespace Api {
       showOutOrderMenu: boolean;
       showProductAndInventoryMenu: boolean;
       isAuthorizationStore: boolean;
+      extStore: number;
+      extBrandNo: string;
+      eshop: boolean;
+      hasIncentive: boolean;
     }
 
     interface HomeStatistics {

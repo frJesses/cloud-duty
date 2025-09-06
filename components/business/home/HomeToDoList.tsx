@@ -126,7 +126,7 @@ export default function HomeToDoList() {
       <View className="border-b-[1px] pb-2 border-dashed border-[#f5f5f5] flex flex-row items-center justify-between">
         <Text className="t-primary text-base">待办列表</Text>
         <Touch className="flex flex-row">
-          <Text className="t-second">查看更多</Text>
+          <Text className="t-second text-sm">查看更多</Text>
           <Ionicons name="chevron-forward" size={18} color="#9E9E9E" />
         </Touch>
       </View>

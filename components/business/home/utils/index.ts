@@ -7,23 +7,23 @@ export const BANNER_ICON = {
   "duty-record": require("@/assets/images/home/duty-record.png"),
   "compensation-process": require("@/assets/images/home/compensation-process.png"),
   "product-create-record": require("@/assets/images/home/product-create-record.png"),
-  "inventory-management": require("@/assets/images/home/inventory-management.png")
-}
+  "inventory-management": require("@/assets/images/home/inventory-management.png"),
+  "data-statistics": require("@/assets/images/home/data-statistics.png"),
+  takeout: require("@/assets/images/home/takeout.png"),
+  hardware: require("@/assets/images/home/hardware.png"),
+  marketing: require("@/assets/images/home/marketing.png"),
+  alipayIncentive: require("@/assets/images/home/alipayIncentive.png"),
+  deviceSelfCheck: require("@/assets/images/home/deviceSelfCheck.png"),
+  category: require("@/assets/images/home/category.png"),
+  light: require("@/assets/images/home/light.png"),
+  medication: require("@/assets/images/home/medication.png"),
+  workOrder: require("@/assets/images/home/workOrder.png"),
+};
 
 export interface Banner {
-  title: string
-  iconKey: keyof typeof BANNER_ICON
-  path: string
+  title: string;
+  iconKey: keyof typeof BANNER_ICON;
+  path: string;
+  showMenu?: () => Promise<boolean>;
+  show?: boolean;
 }
-
-export const BANNER_LIST: Banner[] = [
-  { title: "结班记录", iconKey: "closing-record", path: "statistics/ClosingStatistics" },
-  { title: "分类统计", iconKey: "category-statistics", path: "statistics/CategoryStatistics" },
-  { title: "分时统计", iconKey: "time-sharing-statistics", path: "statistics/TimeSharing" },
-  { title: "商品销量", iconKey: "product-sales", path: "commodity/CommoditySales" },
-  { title: "商品建档", iconKey: "product-create-record", path: "commodity/ProductFiling" },
-  { title: "库存管理", iconKey: "inventory-management", path: "commodity/InventoryManagement" },
-  { title: "模式切换", iconKey: "mode-change", path: "store/ChangeStoreMode" },
-  { title: "值守记录", iconKey: "duty-record", path: "duty/DutyRecords" },
-  { title: "赔付进度", iconKey: "compensation-process", path: "compensation/CompensationProgress" }
-]
