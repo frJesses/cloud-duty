@@ -63,7 +63,7 @@ export default function RootLayout() {
               <Stack.Screen name="test-list" />
             </Stack>
           </GestureHandlerRootView>
-          <StatusBar translucent backgroundColor="transparent" />
+          <StatusBar style="dark" backgroundColor="transparent" translucent />
         </SafeAreaProvider>
       </NativeBaseProvider>
     </ThemeProvider>

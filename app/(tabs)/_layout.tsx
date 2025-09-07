@@ -6,7 +6,6 @@ import { TouchableOpacity } from "react-native";
 import { TABS_LIST } from "@/constants/Tabs";
 
 export default function TabLayout() {
-
   function CustomTabButton(props: any) {
     return <TouchableOpacity {...props} activeOpacity={1} />;
   }
@@ -16,15 +15,10 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "#FF6F00",
         headerShown: false,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: "absolute",
-          },
-          default: {
-            elevation: 0,
-            shadowOpacity: 0,
-          },
-        }),
+        tabBarStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+        },
         tabBarItemStyle: {
           backgroundColor: "transparent",
         },

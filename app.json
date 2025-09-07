@@ -28,7 +28,7 @@
       "visible": "visible"
     },
     "androidStatusBar": {
-      "backgroundColor": "#FFFFFF",
+      "backgroundColor": "transparent",
       "barStyle": "dark-content",
       "translucent": true
     },

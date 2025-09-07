@@ -10,12 +10,9 @@ interface Props {
   showArrow?: Boolean;
 }
 
-export default function Layout({
-  children,
-  title,
-  headerRight,
-  showArrow,
-}: Props) {
+export default function Layout(props: Props) {
+  const { children, title, headerRight, showArrow } = props;
+
   return (
     <ImageBackground
       source={require("@/assets/images/bg.png")}
@@ -29,6 +26,7 @@ export default function Layout({
           flexDirection: "column",
           overflow: "hidden",
         }}
+        edges={["top", "left", "right"]}
       >
         {title && (
           <CustomHeader
