@@ -63,4 +63,4 @@ class HYRequest {
   }
 }
 
-export default new HYRequest(api.starriver);
+export default new HYRequest(api.prod);

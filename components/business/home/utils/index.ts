@@ -26,4 +26,5 @@ export interface Banner {
   path: string;
   showMenu?: () => Promise<boolean>;
   show?: boolean;
+  done?: boolean;
 }

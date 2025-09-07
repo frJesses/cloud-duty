@@ -3,12 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import { BANNER_ICON, type Banner } from "./utils";
 import { type Href, useRouter } from "expo-router";
 import Touch from "@/components/common/Touch";
-import { useHomeRefresh } from "./context/HomeContext";
 import { useCurrentStore } from "@/store";
+import { Skeleton } from "native-base";
 
 export default function HomeBanner() {
   const router = useRouter();
-  const { refreshCount } = useHomeRefresh();
   const [containerWidth, setContainerWidth] = useState(0);
   const currentStore = useCurrentStore();
   const [banner, setBanner] = useState<Banner[]>([]);
@@ -93,7 +92,18 @@ export default function HomeBanner() {
       path: "duty/DutyRecords",
     },
     { title: "分类管理", iconKey: "category", path: "duty/DutyRecords" },
-    { title: "货架亮灯", iconKey: "light", path: "duty/DutyRecords" },
+    {
+      title: "货架亮灯",
+      iconKey: "light",
+      path: "duty/DutyRecords",
+      showMenu: async () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true);
+          }, 3000);
+        });
+      },
+    },
     {
       title: "赔付进度",
       iconKey: "compensation-process",
@@ -105,8 +115,30 @@ export default function HomeBanner() {
       path: "duty/DutyRecords",
       showMenu: async () => currentStore!.isMedicineIndustry,
     },
-    { title: "无线灯条", iconKey: "light", path: "duty/DutyRecords" },
-    { title: "巡店整改", iconKey: "workOrder", path: "duty/DutyRecords" },
+    {
+      title: "无线灯条",
+      iconKey: "light",
+      path: "duty/DutyRecords",
+      showMenu: async () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true);
+          }, 3000);
+        });
+      },
+    },
+    {
+      title: "巡店整改",
+      iconKey: "workOrder",
+      path: "duty/DutyRecords",
+      showMenu: async () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true);
+          }, 3000);
+        });
+      },
+    },
   ];
 
   const { columns, itemWidth } = useMemo(() => {
@@ -131,13 +163,16 @@ export default function HomeBanner() {
 
   useEffect(() => {
     initBanner();
-  }, [refreshCount]);
+  }, []);
 
   async function initBanner() {
+    const initResult = new Array(16).fill(true);
+    setBanner(initResult);
     const list = await Promise.allSettled(
       BANNER_LIST.map(async (item) => {
         item.show =
           typeof item.showMenu === "function" ? await item.showMenu() : true;
+        item.done = true;
         return item;
       })
     );
@@ -155,23 +190,38 @@ export default function HomeBanner() {
     >
       {banner.map((item, idx) => (
         <View
-          key={item.title + idx}
+          key={`banner-item-${idx}`}
           style={{
             width: itemWidth,
             marginRight: (idx + 1) % columns === 0 ? 0 : H_GAP,
             marginBottom: H_GAP,
           }}
         >
-          {/* <Touch
+          <Touch
             className="items-center justify-center rounded-md flex flex-col gap-3 py-2"
             onPress={() => handleItemPress(item)}
           >
-            <Image
-              source={BANNER_ICON[item.iconKey]}
-              className="w-[50px] h-[50px]"
-            />
-            <Text className="text-[12px] text-[#333]">{item.title}</Text>
-          </Touch> */}
+            <Skeleton
+              key={item.title + idx}
+              w="50"
+              h="50"
+              rounded="8"
+              isLoaded={Boolean(item.done)}
+            >
+              <Image
+                source={BANNER_ICON[item.iconKey]}
+                className="w-[50px] h-[50px]"
+              />
+            </Skeleton>
+            <Skeleton.Text
+              lines={1}
+              alignItems="center"
+              w="10"
+              isLoaded={Boolean(item.done)}
+            >
+              <Text className="text-[12px] text-[#333]">{item.title}</Text>
+            </Skeleton.Text>
+          </Touch>
         </View>
       ))}
     </View>

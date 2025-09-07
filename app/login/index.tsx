@@ -153,7 +153,7 @@ function useShakeAniamted() {
 export default function LoginScreen() {
   const { handleLogin } = useLogin();
   const [query, setQuery] = useState<Api.Request.SignParams>({
-    phone: "15387770948",
+    phone: "13430401702",
     password: "134708*",
     code: "",
   });
