@@ -1,6 +1,7 @@
 export enum StorageKey {
   TOKEN = "token",
-  CURRENTSTORE = "currentStore"
+  CURRENTSTORE = "currentStore",
+  PHONE = "phone"
 }
 
 

@@ -21,6 +21,12 @@ declare namespace Api {
       status?: number;
       keyword?: string;
     }
+
+    interface Inspection {
+      pageSize: number;
+      pageNo: number;
+      userPhone: string;
+    }
   }
 
   namespace Response {
@@ -50,6 +56,7 @@ declare namespace Api {
       extBrandNo: string;
       eshop: boolean;
       hasIncentive: boolean;
+      useLightBar: boolean;
     }
 
     interface HomeStatistics {

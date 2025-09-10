@@ -21,3 +21,10 @@ export async function getStoreInfomation() {
     url: `/api/merchant/goodsCategory/returnInfo?storeKey=${store.key}`,
   });
 }
+
+export async function getInspectionData(data: Api.Request.Inspection) {
+  return HYRequest.post({
+    url: `/api/merchant/inspection/queryInspections`,
+    data,
+  });
+}

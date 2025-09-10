@@ -1,13 +1,24 @@
 import { ScrollView, Text, View, Image } from "react-native";
 import Layout from "@/layout";
 import ListItem from "@/components/common/ListItem";
+import Touch from "@/components/common/Touch";
+import { useRouter } from "expo-router";
 
 export default function Profile() {
+  const router = useRouter();
+
+  function handleUserClick() {
+    router.push("/profile/ProfileSetting");
+  }
+
   return (
     <Layout title="我的" showArrow={false}>
       <View className="h-full">
         <ScrollView>
-          <View className="flex flex-row gap-4 px-4 mt-6">
+          <Touch
+            className="flex flex-row gap-4 px-4 mt-6"
+            onPress={handleUserClick}
+          >
             <View className="w-16 h-16 bg-yellow-300 rounded-full" />
             <View>
               <Text>15797698560</Text>
@@ -28,7 +39,7 @@ export default function Profile() {
                 </View>
               </View>
             </View>
-          </View>
+          </Touch>
           <View className="flex flex-row gap-4 px-4 mt-8">
             <View className="relative flex-1 bg-white rounded-lg py-6 flex">
               <Image
@@ -100,7 +111,7 @@ export default function Profile() {
                 />
               }
             />
-             <ListItem
+            <ListItem
               title="关于应用"
               descTitle="5.26.3 - 2025.06.08"
               icon={

@@ -3,14 +3,19 @@ import { useEffect, useMemo, useState } from "react";
 import { BANNER_ICON, type Banner } from "./utils";
 import { type Href, useRouter } from "expo-router";
 import Touch from "@/components/common/Touch";
-import { useCurrentStore } from "@/store";
+import { useCommonStore, useCurrentStore } from "@/store";
 import { Skeleton } from "native-base";
+import { getInspectionData } from "@/api/store";
+import Storage from "@/utils/cache";
+import { StorageKey } from "@/constants/storage";
 
 export default function HomeBanner() {
   const router = useRouter();
   const [containerWidth, setContainerWidth] = useState(0);
   const currentStore = useCurrentStore();
+  const { fetchConfig } = useCommonStore();
   const [banner, setBanner] = useState<Banner[]>([]);
+  const [inspectionCount, setInspectionCount] = useState(0);
 
   const MIN_ITEM_WIDTH = 72;
   const H_GAP = 8;
@@ -96,13 +101,7 @@ export default function HomeBanner() {
       title: "货架亮灯",
       iconKey: "light",
       path: "duty/DutyRecords",
-      showMenu: async () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 3000);
-        });
-      },
+      showMenu: showLight,
     },
     {
       title: "赔付进度",
@@ -119,27 +118,35 @@ export default function HomeBanner() {
       title: "无线灯条",
       iconKey: "light",
       path: "duty/DutyRecords",
-      showMenu: async () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 3000);
-        });
-      },
+      showMenu: async () => currentStore!.useLightBar,
     },
     {
       title: "巡店整改",
       iconKey: "workOrder",
       path: "duty/DutyRecords",
-      showMenu: async () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 3000);
-        });
-      },
+      showMenu: showInspection,
     },
   ];
+
+  async function showInspection() {
+    const phone = await Storage.get(StorageKey.PHONE);
+    if (!phone) {
+      return false;
+    }
+    const res = await getInspectionData({
+      pageSize: 10,
+      pageNo: 1,
+      userPhone: phone,
+    });
+    setInspectionCount(res?.toBeRectifiedNum || 0);
+    return res?.show === 1;
+  }
+
+  async function showLight() {
+    await fetchConfig();
+    const { config } = useCommonStore.getState();
+    return Boolean(config?.useShelfLight);
+  }
 
   const { columns, itemWidth } = useMemo(() => {
     if (containerWidth <= 0) return { columns: 1, itemWidth: containerWidth };

@@ -6,7 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, Checkbox, Link } from "native-base";
 import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
-import { useRequest } from "ahooks";
 import { signup } from "@/api/user";
 import Storage from "@/utils/cache";
 import { StorageKey } from "@/constants/storage";
@@ -161,10 +160,7 @@ export default function LoginScreen() {
   const [isAgree, setIsAgree] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { triggerShake, shakeAnim } = useShakeAniamted();
-
-  const { loading, runAsync } = useRequest(() => signup(query), {
-    manual: true,
-  });
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmitClick() {
     if (!isAgree) {
@@ -173,13 +169,17 @@ export default function LoginScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       return;
     }
-    runAsync()
+    setLoading(true);
+    signup(query)
       .then(async (res) => {
+        setLoading(false);
         setErrorMessage("");
         await Storage.set(StorageKey.TOKEN, res.token);
+        await Storage.set(StorageKey.PHONE, query.phone);
         await handleLogin();
       })
       .catch((err) => {
+        setLoading(false);
         setErrorMessage(err);
       });
   }

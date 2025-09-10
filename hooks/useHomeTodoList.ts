@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getStoreEmergencyContact, getStoreInfomation } from "@/api/store";
 import { getStorageStore } from "@/utils/tools";
 import { getInternalGoods } from "@/api/goods";
+import { useCommonStore } from "@/store";
 
 export interface Result {
   name: string;
@@ -21,6 +22,7 @@ export interface Result {
  * 6. 商品建档提醒
  */
 export function useHomeToDoList() {
+  const { fetchConfig } = useCommonStore();
   const [result, setResult] = useState<Result[]>([]);
   const TASK_LIST: Result[] = [
     {
@@ -67,7 +69,7 @@ export function useHomeToDoList() {
     return !res || res.length === 0;
   }
 
-  async function handleEmergencyClick() { }
+  async function handleEmergencyClick() {}
 
   // 服务费
   async function showServerFee() {
@@ -76,7 +78,7 @@ export function useHomeToDoList() {
     return [1, 2].includes(currentUser?.prepaidAccountState);
   }
 
-  async function handlePrepaid() { }
+  async function handlePrepaid() {}
 
   // 完善门店信息
   async function showAddress() {
@@ -86,8 +88,9 @@ export function useHomeToDoList() {
 
   // 亮灯确认提示
   async function showLight() {
-    const res = await getStoreInfomation();
-    return res.useShelfLight && res.noShelfLightCount > 0;
+    await fetchConfig();
+    const { config } = useCommonStore.getState();
+    return Boolean(config?.useShelfLight && config?.noShelfLightCount > 0);
   }
 
   // 商品未建档
@@ -98,7 +101,7 @@ export function useHomeToDoList() {
 
   // 执行堆栈中的任务
   async function runTask() {
-    setIsLoaded(false)
+    setIsLoaded(false);
     let task = await Promise.allSettled(
       TASK_LIST.map(async (item) => {
         item.showMenu = await item.showCallback();
@@ -113,5 +116,5 @@ export function useHomeToDoList() {
     setResult(result);
   }
 
-  return { runTask, result, isLoaded }
+  return { runTask, result, isLoaded };
 }
