@@ -13,6 +13,8 @@ class HYRequest {
 
   whiteApi = ["/auth/refresh"];
 
+  responsApi = ["/api/merchant/stores/notifyMessage/getNotifyMessage"];
+
   constructor(baseURL: string, timeout = 10000) {
     this.instance = axios.create({
       baseURL: baseURL,
@@ -37,12 +39,20 @@ class HYRequest {
     );
 
     this.instance.interceptors.response.use(
-      (response: AxiosResponse<Api.Response>) => {
+      (response: AxiosResponse<Api.ResponseData, any>) => {
         const res = response.data;
         if (res.code < 0) {
           return Promise.reject(res.msg);
         }
-        return res.data || res;
+        // 统一接口返回值
+        if (this.responsApi.includes(response.config.url!)) {
+          return {
+            data: res.data || [],
+            totalPage: res.totalPage,
+            count: res.count
+          }
+        }
+        return res.data;
       },
       (error) => {
         return Promise.reject(error);

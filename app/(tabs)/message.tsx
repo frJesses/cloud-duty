@@ -1,35 +1,36 @@
-import { Image, ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import Layout from "@/layout";
-import Touch from "@/components/common/Touch";
+import MessageItem from "@/components/business/message/MessageItem";
+import { getMessageList } from "@/api/message";
+import { useCallback, useState } from "react";
+import { usePageFocus } from "@/hooks/usePageFoucs";
 
-function MessageItem() {
-  return (
-    <Touch className="py-3 border-b-[1px] border-[#f5f5f5] flex flex-row gap-3">
-      <Image
-        source={require("@/assets/images/message/screenshot.png")}
-        className="w-16 h-16"
-      />
-      <View className="flex-1 flex-col flex justify-between">
-        <Text className="text-base t-primary">截图报告</Text>
-        <Text className="text-base t-second" numberOfLines={1}>T0001门店截图报备T0001门店截图报备T0001门店截图报备</Text>
-      </View>
-      <Text className="text-base t-second">2024-05-06</Text>
-    </Touch>
-  );
-}
+const DEFAULT_LIST = new Array(6).fill({ type: "defalut" });
 
 export default function Message() {
+  const [messageList, setMessageList] =
+    useState<Api.Response.Message[]>(DEFAULT_LIST);
+  const [done, setDone] = useState(false);
+
+  const fetchMessageList = useCallback(async () => {
+    setMessageList(DEFAULT_LIST);
+    setDone(false);
+    setTimeout(async () => {
+      const res = await getMessageList();
+      setMessageList(res);
+      setDone(true);
+    }, 500);
+  }, []);
+
+  usePageFocus(fetchMessageList);
+
   return (
     <Layout title="消息中心" showArrow={false}>
       <View className="h-full bg-white px-3">
         <ScrollView>
-          <View>
-            {MessageItem()}
-            {MessageItem()}
-            {MessageItem()}
-            {MessageItem()}
-            {MessageItem()}
-          </View>
+          {messageList.map((item, index) => (
+            <MessageItem itemData={item} done={done} key={item.type + index} />
+          ))}
         </ScrollView>
       </View>
     </Layout>

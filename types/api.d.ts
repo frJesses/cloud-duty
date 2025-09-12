@@ -1,8 +1,23 @@
 declare namespace Api {
-  interface Response<T = any> {
+  type MessageType =
+    | "DutyReport"
+    | "DeviceMalfunction"
+    | "ScreenshotReport"
+    | "StealMissPay"
+    | "ReturnDevice";
+
+  interface ResponseData<T = any> {
     code: number;
     data: T;
     msg: string;
+    count: number;
+    totalPage: number;
+  }
+
+  interface RefreshData<T = any> {
+    count: number;
+    totalPage: number;
+    data: T[];
   }
 
   namespace Request {
@@ -26,6 +41,10 @@ declare namespace Api {
       pageSize: number;
       pageNo: number;
       userPhone: string;
+    }
+
+    interface NotifyParams extends Page {
+      type: MessageType;
     }
   }
 
@@ -109,6 +128,42 @@ declare namespace Api {
       purPrice: number;
       salePrice: number;
       storeKey: string;
+    }
+
+    interface MonitorItem {
+      _id: string;
+      name: string;
+      device: string;
+      [k: string]: any;
+    }
+
+    interface Message {
+      alert: string;
+      count: string;
+      createdAt: string;
+      title: string;
+      type: MessageType;
+    }
+
+    interface DutyReport {
+      _id: string;
+      cscId: string;
+      storeKey: string;
+      storeName: string;
+      storeId: string;
+      type: MessageType;
+      alert: string;
+      title: string;
+      noHumanTime: string;
+      humanTime: string;
+      duration: string;
+      orderCount: number;
+      saleTotal: number;
+      createdAt: string;
+      updatedAt: string;
+      is24HourUnmanned: boolean;
+      happenTime: string;
+      reportImg: string
     }
   }
 }

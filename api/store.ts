@@ -28,3 +28,9 @@ export async function getInspectionData(data: Api.Request.Inspection) {
     data,
   });
 }
+
+export async function getStoreMonitorDevices() {
+  return HYRequest.get<Api.Response.MonitorItem[]>({
+    url: "/api/merchant/hkvs/devices",
+  });
+}
